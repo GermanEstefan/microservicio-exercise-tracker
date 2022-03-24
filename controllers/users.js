@@ -26,7 +26,7 @@ const createExercises = async (req, res) => {
         return res.json({
             _id,
             username,
-            date: dateDB,
+            date: dateDB.toDateString(),
             duration: durationDB,
             description: descriptionDB
         });
@@ -60,7 +60,7 @@ const getExercises = async (req, res) => {
             return {
                 description: data.description,
                 duration: data.duration,
-                date: data.date
+                date: data.date.toDateString()
             }
         })
 
@@ -74,8 +74,6 @@ const getExercises = async (req, res) => {
         console.log(error);
         return res.json(error);
     }
-
-
 
 }
 

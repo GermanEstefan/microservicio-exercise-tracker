@@ -1,12 +1,13 @@
 const express = require('express');
-const { createUsers, createExercises, getAllUsers, getExercises } = require('./controllers/users');
 const dbInit = require('./db/config');
 const { check } = require('express-validator');
+require('dotenv').config();
 const validationFields = require('./middlewares/validationFields');
 const { verifyUserExistence } = require('./middlewares/validationDB');
-require('dotenv').config();
+const { createUsers, createExercises, getAllUsers, getExercises } = require('./controllers/users');
+const isDateCustom = require('./middlewares/isDateCustom');
 
-//CONST
+//CONSTS
 const PORT = process.env.PORT;
 
 //Init app
@@ -29,11 +30,11 @@ app.post('/api/users', [
 app.post('/api/users/:id/exercises', [
     check('id', 'Not is mongoID').isMongoId(),
     check('id').custom(verifyUserExistence),
+    check('date').custom(isDateCustom),
     check('description', 'Description field is empty').not().isEmpty(),
     check('duration', 'Duration not is a number').isNumeric(),
     validationFields
 ], createExercises);
-
 app.get('/api/users', getAllUsers);
 
 app.get('/api/users/:id/logs', [

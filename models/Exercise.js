@@ -10,7 +10,7 @@ const exerciseSchema = new Schema({
         required: true
     },
     date: {
-        type: String,
+        type: Date,
         default: new Date().toDateString()
     },
     user: {
